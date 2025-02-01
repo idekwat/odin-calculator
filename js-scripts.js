@@ -6,7 +6,7 @@ let num2 = 0.0;
 let num3 = 0.0;
 let currentinput = "";
 let operator = "";
-let firstNum = true;
+let newInput = true;
 
 const calc1 = document.getElementById("num1");
 const calc2 = document.getElementById("num2");
@@ -25,129 +25,105 @@ const calcDiv = document.getElementById("toDiv");
 const calcEql = document.getElementById("toEql");
 
 calc1.onclick = () => {
-    currentinput = ""
+    newInput = true;
     currentinput = currentinput+ "1";
-    console.log(currentinput);
+    console.log("CI: " + currentinput);
 }
 calc2.onclick = () => {
-    currentinput = ""
+    newInput = true;
     currentinput = currentinput+ "2";
-    console.log(currentinput);
+    console.log("CI: " + currentinput);
 }
 calc3.onclick = () => {
-    currentinput = ""
+    newInput = true;
     currentinput = currentinput+ "3";
-    console.log(currentinput);
+    console.log("CI: " + currentinput);
 }
 calc4.onclick = () => {
-    currentinput = ""
+    newInput = true;
     currentinput = currentinput+ "4";
-    console.log(currentinput);
+    console.log("CI: " + currentinput);
 }
 calc5.onclick = () => {
-    currentinput = ""
+    newInput = true;
     currentinput = currentinput+ "5";
-    console.log(currentinput);
+    console.log("CI: " + currentinput);
 }
 calc6.onclick = () => {
-    currentinput = ""
+    newInput = true;
     currentinput = currentinput+ "6";
-    console.log(currentinput);
+    console.log("CI: " + currentinput);
 }
 calc7.onclick = () => {
-    currentinput = ""
+    newInput = true;
     currentinput = currentinput+ "7";
-    console.log(currentinput);
+    console.log("CI: " + currentinput);
 }
 calc8.onclick = () => {
-    currentinput = ""
+    newInput = true;
     currentinput = currentinput+ "8";
-    console.log(currentinput);
+    console.log("CI: " + currentinput);
 }
 calc9.onclick = () => {
-    currentinput = ""
+    newInput = true;
     currentinput = currentinput+ "9";
-    console.log(currentinput);
+    console.log("CI: " + currentinput);
 }
 calc0.onclick = () => {
-    currentinput = ""
+    newInput = true;
     currentinput = currentinput+ "0";
-    console.log(currentinput);
+    console.log("CI: " + currentinput);
 }
 
 calcAdd.onclick = () => {
-    if(firstNum){
-        num1 = 0;
-        num1 += parseFloat(currentinput);
+    if(newInput){   
+        num1 = parseFloat(currentinput);
+        newInput = false;
         currentinput = "";
-        console.log("num1 " + num1);
-        firstNum = false;
+    }
+    else{
+        num1 = num3;
+        operate();
     }
     operator = "+";
+    console.log(operator);
 }
 calcSubt.onclick = () => {
     if(firstNum){
-        num1 = 0;
-        num1 += parseFloat(currentinput);
-        currentinput = "";
-        console.log("num1 " + num1);
-        firstNum = false;
     }
     operator = "-";
 }
 calcMult.onclick = () => {
     if(firstNum){
-        num1 = 0;
-        num1 += parseFloat(currentinput);
-        currentinput = "";
-        console.log("num1 " + num1);
-        firstNum = false;
     }
     operator = "*";
 }
 calcDiv.onclick = () => {
     if(firstNum){
-        num1 = 0;
-        num1 += parseFloat(currentinput);
-        currentinput = "";
-        console.log("num1 " + num1);
-        firstNum = false;
     }
     operator = "/";
 }
 
 calcEql.onclick = () => {
-        switch(operator) {
+    operate();
+}
+
+function operate(){
+    switch(operator) {
         case("+"):
         num2 = parseFloat(currentinput);
-        console.log("num2 " + num2);
         num3 = num1 + num2;
-        console.log(num3);
+        console.log("num3: " + num3);
         break;
 
         case("-"):
-        num2 = parseFloat(currentinput);
-        console.log("num2 " + num2);
-        num3 = num1 - num2;
-        currentinput = num3;
-        console.log(num3);
         break;
 
         case("*"):
-        num2 = parseFloat(currentinput);
-        console.log("num2 " + num2);
-        num3 = num1 * num2;
-        currentinput = num3;
-        console.log(num3);
         break;
       
         case("/"):
-        num2 = parseFloat(currentinput);
-        console.log("num2 " + num2);
-        num3 = num1 / num2;
-        currentinput = num3;
-        console.log(num3);
         break;  
     }
-    firstNum = true;
+    currentinput="";
 }
