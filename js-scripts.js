@@ -1,29 +1,30 @@
 
-//scripts here
-
 const numberButton = document.querySelectorAll(".numbers");
 const operatorButton = document.querySelectorAll(".operators");
+
 const equalButton = document.getElementById("equals");
 const clearButton = document.getElementById("clear");
 const periodButton = document.getElementById("period");
+
+const displayHere = document.querySelector(".calcDisplay");
+
 
 let num1 = "";
 let num2 = "";
 let result = null;
 let oprtr = "";
-let useResult = false;
-let hasPeriod = false;
+
 
 function numberInput() {
-    numberButton.forEach((button) => {
+    numberButton.forEach((button) => {                                  
         button.onclick = () => {
-            if(oprtr == "=" & result != null) {
+            if(oprtr == "=" & result != null) {                         
                 num1 = "";
                 num1 += button.textContent;
                 if(num1.charAt(num1.length-1) == "."){
                     periodButton.disabled = true;
                 }
-                console.log("num1 " + num1);
+                displayHere.innerText = num1;                           
                 operations();
             }
             else if(oprtr == "" ) {
@@ -31,7 +32,7 @@ function numberInput() {
                 if(num1.charAt(num1.length-1) == "."){
                     periodButton.disabled = true;
                 }
-                console.log("num1 " + num1);
+                displayHere.innerText = num1;                          
                 operations();
             }
             else {
@@ -40,6 +41,7 @@ function numberInput() {
                     periodButton.disabled = true;
                 }
                 console.log("num2 " + num2);
+                displayHere.innerText = num2;
             }
         }
     })
@@ -53,11 +55,13 @@ function operations() {
             }
             else {
                 oprtr = button.textContent;
-                console.log(oprtr);
+                //acts like console.log(oprtr) but for DOM output
+                displayHere.innerText = oprtr;
                 periodButton.disabled = false;
             }
             if(num1 != "" & num2 != "" & oprtr != "") {
                 toCalculate();
+                //acts like console.log(num1) but for DOM output
                 oprtr = button.textContent;
             }
 
@@ -105,7 +109,8 @@ function toCalculate () {
         result = parseFloat(num1);
     }
     periodButton.disabled = false;
-    console.log("Result " + result);
+    //console.log("Result " + result);
+    displayHere.innerText = result;
 }
 
 clearButton.onclick = () => {
@@ -117,5 +122,9 @@ function clearEverything() {
     num2 = "";
     oprtr = "";
     hasOperator = false;
+    displayHere.innerText = "0";
+    periodButton.disabled = false;
+    //console.log("CLEARED");
+    numberInput();
 }
 numberInput();
