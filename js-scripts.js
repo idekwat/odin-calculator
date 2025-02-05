@@ -5,6 +5,7 @@ const operatorButton = document.querySelectorAll(".operators");
 const equalButton = document.getElementById("equals");
 const clearButton = document.getElementById("clear");
 const periodButton = document.getElementById("period");
+const delButton = document.getElementById("backspace");
 
 const displayHere = document.querySelector(".calcDisplay");
 
@@ -16,15 +17,20 @@ let oprtr = "";
 
 
 function numberInput() {
-    numberButton.forEach((button) => {                                  
+    numberButton.forEach((button) => {
         button.onclick = () => {
-            if(oprtr == "=" & result != null) {                         
-                num1 = "";
+            if(oprtr == "=" & result != null) {
+                if(num1 == String(result)) {
+                    num1 = "";
+                }
                 num1 += button.textContent;
+                if(num1 == "." & num1.length <2) {
+                    num1 = "0.";
+                }
                 if(num1.charAt(num1.length-1) == "."){
                     periodButton.disabled = true;
                 }
-                displayHere.innerText = num1;                           
+                displayHere.innerText = num1;
                 operations();
             }
             else if(oprtr == "" ) {
@@ -32,7 +38,7 @@ function numberInput() {
                 if(num1.charAt(num1.length-1) == "."){
                     periodButton.disabled = true;
                 }
-                displayHere.innerText = num1;                          
+                displayHere.innerText = num1;
                 operations();
             }
             else {
@@ -40,11 +46,34 @@ function numberInput() {
                 if(num2.charAt(num2.length-1) == "."){
                     periodButton.disabled = true;
                 }
-                console.log("num2 " + num2);
                 displayHere.innerText = num2;
             }
         }
     })
+}
+
+delButton.onclick = () => {
+    if(num1 != "" & num1 != "0" & oprtr == "") {
+        if(num1.slice(-1) == ".") {
+            periodButton.disabled = false;
+        }
+        num1 = num1.slice(0, num1.length-1);
+        displayHere.innerText = num1;    
+    }
+    else if(num1 == String(result)) {
+        if(num1.slice(-1) == ".") {
+            periodButton.disabled = false;
+        }
+        num1 = num1.slice(0, num1.length-1);
+        displayHere.innerText = num1;    
+    }
+    else {
+        if(num2.slice(-1) == ".") {
+            periodButton.disabled = false;
+        }
+        num2 = num2.slice(0, num2.length-1);
+        displayHere.innerText = num2;
+    }
 }
 
 function operations() {
@@ -55,13 +84,11 @@ function operations() {
             }
             else {
                 oprtr = button.textContent;
-                //acts like console.log(oprtr) but for DOM output
                 displayHere.innerText = oprtr;
                 periodButton.disabled = false;
             }
             if(num1 != "" & num2 != "" & oprtr != "") {
                 toCalculate();
-                //acts like console.log(num1) but for DOM output
                 oprtr = button.textContent;
             }
 
@@ -73,29 +100,36 @@ function operate(num1, num2, oprtr) {
     switch(oprtr) {
         case("+"):
         if(num1 != "" & num2 != "") {
-            return parseFloat(num1) + parseFloat(num2);
+            return (parseFloat(num1) + parseFloat(num2)).toFixed(2);
         }
         break;
         case("-"):
         if(num1 != "" & num2 != "") {
-            return parseFloat(num1) - parseFloat(num2);
+            return (parseFloat(num1) - parseFloat(num2)).toFixed(2);
         }
         break;
         case("x"):
         if(num1 != "" & num2 != "") {
-            return parseFloat(num1) * parseFloat(num2);
+            return (parseFloat(num1) * parseFloat(num2)).toFixed(2);
         }
         break;
         case("/"):
         if(num1 != "" & num2 != "") {
-            return num2 == "0" ? alert("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") + clearEverything(): parseFloat(num1) / parseFloat(num2);
+            return num2 == "0" ? alert(":( \nwhy? \nyou broke it :("): (parseFloat(num1) / parseFloat(num2)).toFixed(2);
         }
         break;
     }
 }
 
+
+
 equalButton.onclick = () => {
-    toCalculate();
+    if (num1 != ".") {
+        toCalculate();
+    }
+    else {
+        clearEverything();
+    }
 }
 
 function toCalculate () {
@@ -108,8 +142,14 @@ function toCalculate () {
     else if(num1 != "" & num2 == "") {
         result = parseFloat(num1);
     }
-    periodButton.disabled = false;
-    //console.log("Result " + result);
+    for(let a = 0; a<num1.length-1; a++) {
+        if(num1.charAt(a) == ".") {
+            periodButton.disabled = true;
+        }
+        else {
+            periodButton.disabled = false;
+        }
+    }
     displayHere.innerText = result;
 }
 
@@ -124,7 +164,7 @@ function clearEverything() {
     hasOperator = false;
     displayHere.innerText = "0";
     periodButton.disabled = false;
-    //console.log("CLEARED");
     numberInput();
 }
+
 numberInput();
